@@ -4,14 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class State {
-	public string userText;
-	public string ahText;
-	public string userSound;
-	public string ahSound;
-}
-
-public class Speech : MonoBehaviour {
+public class Speech2 : MonoBehaviour {
 
 	public GameObject HeadUser;
 	public GameObject UserText;
@@ -26,7 +19,7 @@ public class Speech : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		var state1 = new State ();
-		state1.userText = "What do you want\nthis time Master?";
+		state1.userText = "There you go,\nwhat next?";
 		state1.ahText = "";
 		Debug.Log (state1);
 		Debug.Log (states);
@@ -34,24 +27,24 @@ public class Speech : MonoBehaviour {
 
 		var state2 = new State ();
 		state2.userText = "";
-		state2.ahText = "I need fifty souls, this is very important. If you do not you will die.";
+		state2.ahText = "You are my most powerful shaman, but I need more power.\nIt is time to make your last sacrifice.";
 		states.Add(state2);
 
 		var state3 = new State ();
-		state3.userText = "Alright.";
+		state3.userText = "What?";
 		state3.ahText = "";
 		states.Add(state3);
 
 		var state4 = new State ();
 		state4.userText = "";
-		state4.ahText = "Dash and kill with X.\nCarry the corpses with C.\nMove with the arrow keys.\nGood luck.";
+		state4.ahText = "Let's go save the world.";
 		states.Add(state4);
 
 		Switch.GetComponent<Renderer>().enabled = false;
 		canSwitch = false;
 		StartCoroutine ("Next");
 	}
-	
+
 	// Update is called once per frame
 	void Update () {
 		if (canSwitch && Input.GetKeyDown("x")) {
@@ -69,8 +62,8 @@ public class Speech : MonoBehaviour {
 			AhText.GetComponent<Text> ().text = stateTo.ahText;
 			if (stateTo.userText != "") {
 				if (currentState == 2) {
-					HeadUser.GetComponent<SpriteRenderer>().flipX = true;
-					HeadUser.GetComponent<Animator>().SetBool("moveAway", true);
+					// HeadUser.GetComponent<SpriteRenderer>().flipX = true;
+					HeadUser.GetComponent<Animator>().SetBool("suicide", true);
 				}
 				HeadUser.GetComponent<Animator>().SetBool("speak", true);
 				AhSound.GetComponent<AudioSource> ().Stop ();
@@ -83,7 +76,7 @@ public class Speech : MonoBehaviour {
 				AhSound.GetComponent<AudioSource> ().Play ();
 			}
 		} else {
-			SceneManager.LoadScene("Play", LoadSceneMode.Single);
+			SceneManager.LoadScene("Play2", LoadSceneMode.Single);
 		}
 		yield return new WaitForSeconds(1f);
 		currentState++;

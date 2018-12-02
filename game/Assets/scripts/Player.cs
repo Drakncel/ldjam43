@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
 	public AudioClip dash;
 	public AudioClip hit;
 	public AudioClip sacr;
+	public AudioClip grab;
 	private AudioSource audioSource;
 
 	// Use this for initialization
@@ -74,13 +75,17 @@ public class Player : MonoBehaviour {
 
 	void OnCollisionEnter2D (Collision2D col)
 	{
-		if (Char.GetComponent<Animator> ().GetBool ("atk")) {
+		if (col.gameObject.tag == "killer" && col.gameObject.GetComponent<Renderer>().isVisible) {
+			SceneManager.LoadScene("Lose", LoadSceneMode.Single);
+		}
+		if (Char.GetComponent<Animator> ().GetBool ("atk") && col.gameObject.tag == "enemy") {
 			StartCoroutine ("Kill", col.gameObject);
 		}
 	}
 
 	void OnCollisionStay2D (Collision2D col){
 		if (Input.GetKeyDown ("c") && col.gameObject.GetComponent<Enemy>().grabbable) {
+			audioSource.PlayOneShot (grab, 1f);
 			currentSpeed -= .5f;
 			col.gameObject.GetComponent<Enemy>().grab();
 		}
@@ -104,6 +109,7 @@ public class Player : MonoBehaviour {
 				audioSource.PlayOneShot (sacr, .7f);
 			}
 			currentSpeed = baseSpeed;
+			speed = baseSpeed;
 			secondsLeft += combo - 1;
 			Spawner.GetComponent<Spawner> ().setSacr (nbSacr);
 			sacrificing = false;
