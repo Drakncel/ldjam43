@@ -76,7 +76,7 @@ public class Speech2 : MonoBehaviour {
 				AhSound.GetComponent<AudioSource> ().Play ();
 			}
 		} else {
-			SceneManager.LoadScene("Play2", LoadSceneMode.Single);
+			SceneManager.LoadScene("Menu", LoadSceneMode.Single);
 		}
 		yield return new WaitForSeconds(1f);
 		currentState++;
